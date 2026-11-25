@@ -1,0 +1,34 @@
+<div class="d-flex align-items-center gap-3 mb-3">
+  <a href="/admin/requests" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>Back</a>
+  <div><h1 class="page-title">Review Leave Request #{{vm.leave.id}}</h1>
+    <p class="page-subtitle mb-0">Submitted on {{vm.leave.applied_at | date:'dd MMMM yyyy'}}</p></div>
+</div>
+<div class="row g-4" ng-if="vm.leave">
+  <div class="col-lg-7"><div class="card"><div class="card-header">Leave details</div>
+    <div class="card-body"><table class="table table-custom mb-0"><tbody>
+      <tr><td class="text-muted" style="width:40%">Employee</td><td><strong>{{vm.leave.employee_name}}</strong><br><small class="text-muted">{{vm.leave.employee_email}}</small></td></tr>
+      <tr><td class="text-muted">Department</td><td>{{vm.leave.department || '—'}}</td></tr>
+      <tr><td class="text-muted">Leave type</td><td>{{vm.leave.leave_type}}</td></tr>
+      <tr><td class="text-muted">Start date</td><td>{{vm.leave.start_date | date:'EEE, dd MMMM yyyy'}}</td></tr>
+      <tr><td class="text-muted">End date</td><td>{{vm.leave.end_date | date:'EEE, dd MMMM yyyy'}}</td></tr>
+      <tr ng-if="vm.leave.is_half_day"><td class="text-muted">Half day</td><td>{{vm.leave.half_day_session}}</td></tr>
+      <tr><td class="text-muted">Total days</td><td><strong>{{vm.leave.days}}</strong></td></tr>
+      <tr><td class="text-muted">Contact</td><td>{{vm.leave.contact_number || '—'}}</td></tr>
+      <tr><td class="text-muted">Reason</td><td>{{vm.leave.reason}}</td></tr>
+      <tr><td class="text-muted">Status</td><td><span class="badge-status {{vm.leave.status | statusClass}}">{{vm.leave.status}}</span></td></tr>
+    </tbody></table></div></div></div>
+  <div class="col-lg-5"><div class="card"><div class="card-header">Decision</div><div class="card-body">
+    <div ng-if="vm.leave.status === 'Pending'">
+      <label class="form-label">Comment (optional)</label>
+      <textarea class="form-control mb-3" rows="4" ng-model="vm.comment"></textarea>
+      <div class="d-flex gap-2">
+        <button class="btn btn-success flex-fill" ng-click="vm.decide('Approved')"><i class="bi bi-check-lg me-1"></i>Approve</button>
+        <button class="btn btn-danger flex-fill" ng-click="vm.decide('Rejected')"><i class="bi bi-x-lg me-1"></i>Reject</button>
+      </div>
+    </div>
+    <div ng-if="vm.leave.status !== 'Pending'">
+      <p class="text-muted">This request is already <strong>{{vm.leave.status}}</strong>.</p>
+      <p ng-if="vm.leave.admin_comment"><strong>Comment:</strong> {{vm.leave.admin_comment}}</p>
+    </div>
+  </div></div></div>
+</div>

@@ -1,0 +1,47 @@
+<div class="page-header">
+  <h1 class="page-title">My Dashboard</h1>
+  <p class="page-subtitle">Welcome back, {{vm.user.name}} — {{vm.today | date:'fullDate'}}</p>
+</div>
+<div class="row g-3 mb-4">
+  <div class="col-6 col-lg-3"><div class="stat-card"><div class="num">{{vm.stats.total}}</div>Total requests</div></div>
+  <div class="col-6 col-lg-3"><div class="stat-card pending"><div class="num">{{vm.stats.pending}}</div>Pending</div></div>
+  <div class="col-6 col-lg-3"><div class="stat-card approved"><div class="num">{{vm.stats.approved}}</div>Approved</div></div>
+  <div class="col-6 col-lg-3"><div class="stat-card rejected"><div class="num">{{vm.stats.rejected}}</div>Rejected</div></div>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card"><div class="card-header">Leave balance ({{vm.today | date:'yyyy'}})</div>
+      <div class="card-body">
+        <div class="mb-3" ng-repeat="b in vm.balances">
+          <div class="d-flex justify-content-between small">
+            <strong>{{b.leave_type}}</strong>
+            <span ng-if="b.quota !== null">{{b.remaining}} left of {{b.quota}}</span>
+            <span ng-if="b.quota === null" class="text-muted">Unlimited</span>
+          </div>
+          <div class="balance-bar" ng-if="b.quota !== null">
+            <div ng-style="{width: (((b.used + b.pending) / b.quota) * 100) + '%'}"></div></div>
+          <small class="text-muted" ng-if="b.pending">{{b.pending}} day(s) pending approval</small>
+        </div>
+        <a href="/employee/apply" class="btn btn-primary w-100 mt-2"><i class="bi bi-plus-lg me-1"></i>Apply for Leave</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <div class="card"><div class="card-header d-flex justify-content-between">Recent requests
+      <a href="/employee/history" class="small">View all</a></div>
+      <div class="card-body p-0">
+        <div class="empty-state" ng-if="vm.recent && !vm.recent.length"><i class="bi bi-inbox"></i><p>No leave requests yet.</p></div>
+        <table class="table table-custom mb-0" ng-if="vm.recent.length">
+          <thead><tr><th>Type</th><th>Dates</th><th>Days</th><th>Status</th></tr></thead>
+          <tbody><tr ng-repeat="l in vm.recent">
+            <td>{{l.leave_type}}</td>
+            <td>{{l.start_date | date:'dd MMM yyyy'}}<span ng-if="l.end_date !== l.start_date"> – {{l.end_date | date:'dd MMM yyyy'}}</span></td>
+            <td>{{l.days}}</td>
+            <td><span class="badge-status {{l.status | statusClass}}">{{l.status}}</span></td>
+          </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+  <div><h1 class="page-title">My Leaves</h1><p class="page-subtitle">Your complete leave history</p></div>
+  <a href="/employee/apply" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Apply for Leave</a>
+</div>
+<div class="filter-bar d-flex align-items-center gap-2">
+  <label class="mb-0 small text-muted">Status</label>
+  <select class="form-select form-select-sm w-auto" ng-model="vm.filter" ng-change="vm.load()">
+    <option value="">All</option><option ng-repeat="s in vm.statuses" value="{{s}}">{{s}}</option>
+  </select>
+</div>
+<div class="card"><div class="card-body p-0">
+  <div class="empty-state" ng-if="vm.leaves && !vm.leaves.length"><i class="bi bi-inbox"></i><h5>No leave requests</h5></div>
+  <div class="table-responsive" ng-if="vm.leaves.length">
+  <table class="table table-custom mb-0">
+    <thead><tr><th>#</th><th>Type</th><th>Dates</th><th>Days</th><th>Reason</th><th>Status</th><th>Admin comment</th><th></th></tr></thead>
+    <tbody><tr ng-repeat="l in vm.leaves">
+      <td class="text-muted">{{l.id}}</td>
+      <td>{{l.leave_type}}<div class="small text-muted" ng-if="l.is_half_day">Half day · {{l.half_day_session}}</div></td>
+      <td>{{l.start_date | date:'dd MMM yyyy'}}<span ng-if="l.end_date !== l.start_date"> – {{l.end_date | date:'dd MMM yyyy'}}</span></td>
+      <td>{{l.days}}</td>
+      <td style="max-width:220px">{{l.reason}}</td>
+      <td><span class="badge-status {{l.status | statusClass}}">{{l.status}}</span></td>
+      <td class="text-muted small">{{l.admin_comment || '—'}}</td>
+      <td><button class="btn btn-outline-danger btn-sm" ng-if="l.status === 'Pending'" ng-click="vm.cancel(l)">Cancel</button></td>
+    </tr></tbody>
+  </table></div>
+</div></div>

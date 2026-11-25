@@ -1,0 +1,23 @@
+<h1 class="page-title">Leave Reports</h1>
+<p class="page-subtitle">Approved leave summary by employee and date range</p>
+<form class="filter-bar row g-2 align-items-end" ng-submit="vm.load()">
+  <div class="col-md-4"><label class="form-label small">Employee</label>
+    <select class="form-select form-select-sm" ng-model="vm.f.user_id">
+      <option value="">All employees</option><option ng-repeat="e in vm.employees" value="{{e.id}}">{{e.name}}</option></select></div>
+  <div class="col-md-3"><label class="form-label small">From</label><input type="date" class="form-control form-control-sm" ng-model="vm.f.from"></div>
+  <div class="col-md-3"><label class="form-label small">To</label><input type="date" class="form-control form-control-sm" ng-model="vm.f.to"></div>
+  <div class="col-md-2"><button class="btn btn-primary btn-sm w-100">Generate</button></div>
+</form>
+<div class="row g-3 mb-4" ng-if="vm.report">
+  <div class="col-md-3" ng-repeat="s in vm.report.summary"><div class="stat-card"><div class="num">{{s.total_days}}</div>{{s.leave_type}} day(s) · {{s.count}} request(s)</div></div>
+  <div class="col-md-3"><div class="stat-card approved"><div class="num">{{vm.report.totalDays}}</div>Total days</div></div>
+</div>
+<div class="card"><div class="card-body p-0">
+  <div class="empty-state" ng-if="vm.report && !vm.report.details.length"><i class="bi bi-bar-chart"></i><h5>No approved leaves in this range</h5></div>
+  <table class="table table-custom mb-0" ng-if="vm.report.details.length">
+    <thead><tr><th>Employee</th><th>Type</th><th>Start</th><th>End</th><th>Days</th><th>Reason</th></tr></thead>
+    <tbody><tr ng-repeat="l in vm.report.details">
+      <td><strong>{{l.employee_name}}</strong><div class="small text-muted">{{l.department}}</div></td><td>{{l.leave_type}}</td>
+      <td>{{l.start_date | date:'dd MMM yyyy'}}</td><td>{{l.end_date | date:'dd MMM yyyy'}}</td><td>{{l.days}}</td><td>{{l.reason}}</td>
+    </tr></tbody></table>
+</div></div>

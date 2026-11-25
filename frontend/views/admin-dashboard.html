@@ -1,0 +1,21 @@
+<h1 class="page-title">Admin Dashboard</h1>
+<p class="page-subtitle">Welcome back, {{vm.user.name}} — {{vm.today | date:'fullDate'}}</p>
+<div class="row g-3 mb-4">
+  <div class="col-6 col-lg"><div class="stat-card"><div class="num">{{vm.stats.employees}}</div>Employees</div></div>
+  <div class="col-6 col-lg"><div class="stat-card"><div class="num">{{vm.stats.total}}</div>Total requests</div></div>
+  <div class="col-6 col-lg"><div class="stat-card pending"><div class="num">{{vm.stats.pending}}</div>Pending</div></div>
+  <div class="col-6 col-lg"><div class="stat-card approved"><div class="num">{{vm.stats.approved}}</div>Approved</div></div>
+  <div class="col-6 col-lg"><div class="stat-card rejected"><div class="num">{{vm.stats.rejected}}</div>Rejected</div></div>
+</div>
+<div class="card"><div class="card-header d-flex justify-content-between">Recent requests
+  <a href="/admin/requests" class="small">View all</a></div>
+  <div class="card-body p-0"><table class="table table-custom mb-0">
+    <thead><tr><th>Employee</th><th>Type</th><th>Dates</th><th>Days</th><th>Status</th><th></th></tr></thead>
+    <tbody><tr ng-repeat="l in vm.recent">
+      <td><strong>{{l.employee_name}}</strong><div class="small text-muted">{{l.department}}</div></td>
+      <td>{{l.leave_type}}</td>
+      <td>{{l.start_date | date:'dd MMM yyyy'}}<span ng-if="l.end_date !== l.start_date"> – {{l.end_date | date:'dd MMM yyyy'}}</span></td>
+      <td>{{l.days}}</td>
+      <td><span class="badge-status {{l.status | statusClass}}">{{l.status}}</span></td>
+      <td><a class="btn btn-outline-secondary btn-sm" ng-href="/admin/requests/{{l.id}}">Review</a></td>
+    </tr></tbody></table></div></div>

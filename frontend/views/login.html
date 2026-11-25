@@ -1,0 +1,18 @@
+<div class="login-wrap">
+  <div class="card"><div class="card-body p-4">
+    <h1 class="h3 mb-1"><i class="bi bi-calendar2-check me-2 text-success"></i>LeaveFlow</h1>
+    <p class="text-muted">Sign in to manage your leave</p>
+    <div class="alert alert-danger" ng-if="vm.error">{{vm.error}}</div>
+    <form ng-submit="vm.submit()">
+      <div class="mb-3"><label class="form-label">Email</label>
+        <input type="email" class="form-control" ng-model="vm.form.email" required autofocus></div>
+      <div class="mb-3"><label class="form-label">Password</label>
+        <input type="password" class="form-control" ng-model="vm.form.password" required></div>
+      <button class="btn btn-primary w-100" ng-disabled="vm.loading">{{vm.loading ? 'Signing in…' : 'Sign In'}}</button>
+    </form>
+    <hr>
+    <small class="text-muted d-block mb-2">Demo accounts (click to fill):</small>
+    <span class="badge bg-secondary demo-chip me-1" ng-click="vm.fill('admin@company.com','Admin@123')">Admin</span>
+    <span class="badge bg-secondary demo-chip" ng-click="vm.fill('john@company.com','Emp@123')">Employee (John)</span>
+  </div></div>
+</div>
